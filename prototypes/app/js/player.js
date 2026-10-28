@@ -19,6 +19,14 @@ window.Player = (function () {
   /* the attempt the learner chose by opening one of its artworks (My artworks): kept in this tab (sessionStorage), preferred over
      the newest attempt while it exists, forgotten when a new attempt starts (Artworks.newRun) */
   function pin(lesson, runId) { try { sessionStorage.setItem('run:' + lesson, runId); } catch (e) {} }
+  /* the Studio opened from My artworks and left for the lesson (2.2's "Choose another detail", studio/js/detail.js): once, for
+     that artwork, the way back to My artworks */
+  function galleryWay(lesson, art) {
+    try {
+      var k = 'studio-ctx:' + lesson, v = JSON.parse(sessionStorage.getItem(k) || 'null'); sessionStorage.removeItem(k);
+      return v && v.art === art && /^\.\.\/index\.html#\/gallery(\/|$)/.test(v.back || '') ? v.back : null;
+    } catch (e) { return null; }
+  }
   function pinned(id) { try { return sessionStorage.getItem('run:' + id); } catch (e) { return null; } }
   function runOf(id) {
     var p = pinned(id);
@@ -332,8 +340,9 @@ window.Player = (function () {
     /* the Studio on the run's artwork, back to screen `back` */
     function openStudio(activity, back, more) {
       (run.artwork ? Promise.resolve() : W.artworkFor(run.id, 'digital').then(function (w) { run.artwork = w.id; })).then(function () {
+        var g = galleryWay(id, run.artwork);   // opened from My artworks, out to the lesson and back: still back to My artworks
         var href = 'studio/index.html#activity=' + encodeURIComponent(activity) + '&art=' + encodeURIComponent(run.artwork) +
-          '&back=' + encodeURIComponent('../index.html#/lesson/' + id + '/play/' + (back || n)) + (L.works ? '&at=' + n : '') + (more || '');
+          (g ? '&ctx=gallery&back=' + encodeURIComponent(g) : '&back=' + encodeURIComponent('../index.html#/lesson/' + id + '/play/' + (back || n)) + (L.works ? '&at=' + n : '')) + (more || '');
         return keep().then(function () { nav.studio(href); });
       });
     }

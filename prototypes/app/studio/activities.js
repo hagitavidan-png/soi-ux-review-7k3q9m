@@ -166,7 +166,7 @@ window.STUDIO_ACTIVITIES = {
   /* 21 October 2026 (approved): a new work begun on an upright phone is on a 4:5 page (canvas.portrait, js/core.js), its
      own shape from then on; and "Creating on paper" in "More" goes to the lesson's paper screen (its route sets the run
      to paper, the drawing kept: ../js/app.js, js/player.js) */
-  A['2-1-create'].backEnd = true;   // "Back" goes to the lesson's end screen: it says so (28 October 2026)
+  A['2-1-create'].backEnd = A['2-1-free'].backEnd = true;   // "Back" goes to the lesson's end screen: it says so (28 October 2026; "Keep creating" too, the words only)
   ['2-1-create', '2-1-free'].forEach(function (id) { A[id].canvas = { aspect: '4:3', portrait: '4:5', landscape: '16:10' }; });   // landscape: a new work on a tablet held sideways (22 October 2026)
   A['2-1-create'].paper = { href: '../index.html#/lesson/2-1/play/6/paper', label: { he: 'יוצרים על נייר', en: 'Creating on paper' } };
   A['2-1-create'].tools.push('refs');
@@ -228,6 +228,7 @@ window.STUDIO_ACTIVITIES['2-3-light'] = { id: '2-3-light', lesson: '2.3-app', to
    above the work follows the lesson's task */
 window.STUDIO_ACTIVITIES['2-2-close-draw'] = { id: '2-2-close-draw', lesson: '2.2-app', tools: ['draw', 'color', 'table', 'detail', 'refs'], canvas: { aspect: '4:5' },
   workspace: 'floating',   // the page first (version 41) and the floating toolbar in three states (versions 44–49, approved on the author's device): the shared workspace (ARCHITECTURE.md)
+  primaryTools: ['brush', 'eraser', 'color', 'size', 'table', 'undo'],   // the light table among the compact tools, as light and shadow in 2.3 (UX review, 28 October 2026)
   clear: false, restart: true, works: '2-2-close', back: '../index.html#/lesson/2-2-close/play/end', backEnd: true,
   prompt: { he: 'צרו מהפרט שבחרתם משהו חדש.', en: 'Create something new from the detail you chose.' },
   next: { label: { he: 'סיימתי לעכשיו', en: "I'm done for now" } },

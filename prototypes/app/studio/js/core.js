@@ -700,6 +700,7 @@ window.Studio = (function () {
     var api = {
       T: T, lang: LANG, state: state, doc: doc, $: $, stage: stage, activity: info,
       art: ART,                                         // the artwork's id (?art=), or null
+      gallery: Q.get('ctx') === 'gallery' ? BACK : null, // opened from My artworks: where "Back" goes, kept on the way out to the lesson and back (2.2's "Choose another area", js/detail.js)
       pageFirst: !!activity.pageFirst,                  // 2.2, version 41: the page first (the tools place their controls accordingly)
       floatbar: activity.toolbar === 'float',          // version 44: the toolbar floats on a wide screen (html.floatbar while it does)
       leaveTo: function (href) { return flush().then(function () { if (!dirty()) Studio.shell.leaveTo(href); }); },   // saved, then to another page of the app

@@ -157,6 +157,18 @@ Studio.shell = (function () {
       how.type = 'button'; how.className = 'menu-item menu-howto'; how.id = 'howTo'; how.textContent = S.T.howTo;
       how.addEventListener('click', help);
       menu.insertBefore(how, $('clear'));
+      /* and in sight (UX review, second round, 28 October 2026; approved): a "?" beside "More", the same help; where the bar is short of
+         room it leaves the bar first after the title (the step 'th', fitBar) for the end of the full toolbar ("Show all tools"), and
+         "How to use?" in "More" stays */
+      var hq = document.createElement('button');
+      hq.type = 'button'; hq.className = 'morebtn helpq'; hq.id = 'helpBtn'; hq.setAttribute('aria-label', S.T.howTo); hq.title = S.T.howTo;
+      hq.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.4c-.6.3-1 .8-1 1.5v.4"/><circle cx="12" cy="16.8" r=".6" fill="currentColor"/></svg>';
+      hq.addEventListener('click', function () { closePanels(); help(); });
+      top.insertBefore(hq, $('moreWrap'));
+      var ht = button('helpTool', hq.innerHTML, 'howTo');
+      ht.setAttribute('aria-label', S.T.howTo); ht.title = S.T.howTo; ht.querySelector('span').textContent = S.T.howTo;
+      ht.addEventListener('click', function () { closePanels(); help(); });
+      nav.insertBefore(ht, nav.querySelector('.gap-rs'));
     }
     more.addEventListener('click', function () { closePanels(); menuOpen(menu.hidden); });
     menu.addEventListener('click', function (e) { if (e.target.closest('.menu-item')) menuOpen(false); });
@@ -269,6 +281,15 @@ Studio.shell = (function () {
       '<g class="ex-on"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></g>' +
       '<g class="ex-off"><path d="M9 4v5H4"/><path d="M15 4v5h5"/><path d="M9 20v-5H4"/><path d="M15 20v-5h5"/></g></svg><span></span>';
     top.insertBefore(ex, $('save'));
+    /* on a 320 px screen (the author's choice, 28 October 2026), where the way out would otherwise lose its words (fitBar): "Expand" goes
+       from the bar to the toolbar (the floating toolbar: with all its tools, "Show all tools"); in "Expand" the bar keeps "Show all" */
+    var et = button('expandTool', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></svg>', 'expand');
+    et.querySelector('span').textContent = S.T.expand; et.setAttribute('aria-label', S.T.expandLong); et.title = S.T.expandLong;
+    et.addEventListener('click', function () { ex.click(); });   // in the toolbar only while needed (fitBar)
+    /* 2.1 (no floating toolbar, its row already full at 320 px): in "More" instead, "Make the drawing space bigger" */
+    var ei = document.createElement('button');
+    ei.type = 'button'; ei.className = 'menu-item menu-expand'; ei.id = 'expandItem'; ei.textContent = S.T.expandLong;
+    ei.addEventListener('click', function () { ex.click(); });   // in "More" (last) only while needed (fitBar)
     var hinted = false;
     function expand(on, first) {
       document.documentElement.classList.toggle('expanded', on);
@@ -295,10 +316,23 @@ Studio.shell = (function () {
     /* the bar on one line: what it can do without goes first, one step at a time, while it is too long */
     var fitting = 0;
     function fitBar() {
-      top.classList.remove('t1', 't2', 't3', 't4', 't5', 't6');
-      syncMore();
-      var steps = ['t1', 't2', 't3', 't4', 't5', 't6'];
-      for (var i = 0; i < steps.length && over(); i++) { top.classList.add(steps[i]); syncMore(); }
+      var root = document.documentElement, was = root.classList.contains('expand-in-tools');
+      function steps() {
+        top.classList.remove('t1', 't2', 'th', 't3', 't4', 't5', 't6', 't7');
+        syncMore();
+        var all = ['t1', 't2', 'th', 't3', 't4', 't5', 't6', 't7'];   // th: the "?" (the same help stays in "More")
+        for (var i = 0; i < all.length && over(); i++) { top.classList.add(all[i]); syncMore(); }
+      }
+      /* a 320 px screen (the author's choice, 28 October 2026): only when the way out would lose its words (t7), "Expand" goes to the
+         toolbar (studio.css), and the bar is fitted again */
+      root.classList.remove('expand-in-tools'); steps();
+      if (top.classList.contains('t7') && window.matchMedia && matchMedia('(max-width:340px)').matches && !root.classList.contains('expanded')) { root.classList.add('expand-in-tools'); steps(); }
+      root.classList.toggle('help-in-tools', top.classList.contains('th'));   // the "?" at the full toolbar's end
+      /* "Expand"'s other place there only while it is needed, so no other screen has it at all (a change only when it changes) */
+      var need = root.classList.contains('expand-in-tools');
+      if (et) { if (need && S.floatbar) { if (!et.parentNode) nav.insertBefore(et, nav.querySelector('.gap-rs')); } else if (et.parentNode) et.parentNode.removeChild(et); }
+      if (ei) { if (need && !S.floatbar) { if (!ei.parentNode) menu.appendChild(ei); } else if (ei.parentNode) ei.parentNode.removeChild(ei); }
+      if (was !== root.classList.contains('expand-in-tools') && S.layout) S.layout();   // the toolbar changed: the page fitted again
     }
     function over() {
       var m = top.querySelector('.main:not([hidden])');   // the main action: two lines at most

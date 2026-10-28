@@ -409,15 +409,29 @@ html.expanded.compact .app > .stage{flex:1 1 auto;height:auto;padding:0 2px}
 @media (max-width:480px){.top .expand[aria-pressed=false]{box-shadow:none}}   /* by its icon alone: no frame, as before */
 .expanded .top .expand{box-shadow:inset 0 0 0 1.5px var(--ink)}
 .top.t1 .title{display:none}
-.top.t2 .back{min-width:var(--tap);padding:0 10px;justify-content:center}
-.top.t2 .back span,.top.t3 .rp-switch span,.top.t3 .fitview span,.top.t3 .refsbtn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.top.t2 .back{min-width:var(--tap);gap:4px;padding:0 6px}
+/* the way out keeps its words (UX review, 28 October 2026: "To the end of the lesson" is read, not only an arrow): short of
+   room they go to two short lines, never away */
+.top.t2 .back span{white-space:normal;max-width:6.6em;font-size:.78rem;line-height:1.1;text-align:start;text-wrap:balance}
+.top.t2 .back svg{width:16px;height:16px;flex:none}
+.top.th .helpq{display:none}   /* the "?" (js/shell.js): short of room, at the end of the full toolbar instead, and in "More" */
+#tools > #helpTool{display:none}
+html.help-in-tools:not(.tools-folded):not(.tools-min) #tools > #helpTool{display:flex}   /* the full toolbar only */
+.top.t3 .back svg{display:none}   /* shorter still: the words alone, they say where it goes */
+.top.t3 .back{padding:0 4px}
+.top.t3 .rp-switch span,.top.t3 .fitview span,.top.t3 .refsbtn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .top.t3 .fitview,.top.t3 .refsbtn{min-width:44px;padding:0;justify-content:center;background:none}
 .top.t3{gap:4px}
 .top.t4 .works{display:none}
 .menu-works{display:none;align-items:center;text-decoration:none}
 .top.t4 .menu-works{display:flex}
 .top.t5 .main{flex-shrink:1;min-width:5.5em;max-width:11em;white-space:normal;padding:2px 12px;font-size:.8rem;line-height:1.1;text-wrap:balance}   /* as wide as the bar leaves it, two lines at most (js/shell.js) */
-.top.t6{gap:0;padding-inline:2px}   /* the last step, only when nothing else fits (2.3 at 320 px, zoomed: "Whole page" too): the buttons keep 44 px, the gaps go */
+.top.t6{gap:0;padding-inline:2px}   /* the last step but one, when nothing else fits (2.3 at 320 px, zoomed: "Whole page" too): the buttons keep 44 px, the gaps go */
+/* only when even that is too long (a 320 px phone with seven buttons: from My artworks, 2.1's Repeat switch and "More"): "Back"
+   by its arrow, its words its name, as before 28 October 2026 */
+.top.t7 .back{min-width:44px;padding:0;justify-content:center}
+.top.t7 .back svg{display:block}
+.top.t7 .back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .refsbtn{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:var(--tap);min-height:var(--tap);padding:0 12px;border:1.5px solid var(--rule);border-radius:999px;background:var(--sheet);cursor:pointer;font-size:.9rem;font-weight:600;color:var(--ink);white-space:nowrap}
 .refsbtn svg{width:20px;height:20px;flex:none}
 .refsbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -751,8 +765,8 @@ html.pagefirst.pf-tall .refmodes{padding:2px 10px 0}
    "Whole page" all of it in the middle, "Fill the screen" the whole workspace, moved with two fingers */
 html.pagefirst.pf-wide .app{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"top" "stage";padding-bottom:env(safe-area-inset-bottom)}
 html.pagefirst.pf-wide .app > .top{grid-area:top;flex-wrap:nowrap;--tap:44px;min-height:44px;height:44px;padding:0 4px;gap:2px}   /* every button 44 to touch, by its icon */
-html.pagefirst.pf-wide .top .back{min-width:44px;padding:0;justify-content:center}
-html.pagefirst.pf-wide .top .back span,html.pagefirst.pf-wide .top .expand[aria-pressed=false] span,html.pagefirst.pf-wide .top .refsbtn#detailbtn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html.pagefirst.pf-wide .top .back{min-width:44px;padding:0 10px 0 6px;font-size:.88rem}   /* "Back" with its words (28 October 2026) */
+html.pagefirst.pf-wide .top .expand[aria-pressed=false] span,html.pagefirst.pf-wide .top .refsbtn#detailbtn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 html.pagefirst.pf-wide .top .expand[aria-pressed=false]{padding:0;min-width:44px;border-color:transparent}
 html.pagefirst.pf-wide .top .refsbtn#detailbtn{min-width:44px;padding:0;border-color:transparent;justify-content:center}
 html.pagefirst.pf-wide .top .main{padding:0 12px;font-size:.82rem}
@@ -855,7 +869,6 @@ html.pagefirst.floatbar.tools-min #tools > .tools-grip .grip-now svg{width:20px;
 html.floatbar.tools-min .tools-grip .grip-plus{display:flex;align-items:center;justify-content:center;position:absolute;inset-inline-end:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;box-shadow:0 0 0 2px var(--sheet)}
 html.pagefirst.floatbar.tools-min #tools > .tools-grip .grip-plus svg{width:10px;height:10px}
 
-
 /* "How to use?" (js/shell.js help; 28 October 2026): the activity's own tools, each with its icon and one line */
 dialog.help{width:min(440px,calc(100vw - 16px))}
 .help-list{list-style:none;margin:0;padding:0}
@@ -882,8 +895,20 @@ dialog.help{width:min(440px,calc(100vw - 16px))}
 @media (prefers-reduced-motion:reduce){.tone-demo.play .tone-demo-glow,.tone-demo.play .tone-demo-hand{animation:none}}
 /* the narrowest phones (360 px; 28 October 2026): the compact toolbar of six tools, the grip and "Show all" stays one row – the grip
    a little narrower there (its height, the part dragged, as before); every button still 44 */
-@media (max-width:370px){html.pagefirst.floatbar.tools-row.tools-folded #tools > .tools-grip,html.pagefirst.floatbar.tools-row #tools > .tools-grip{width:26px}}
+@media (max-width:370px){html.pagefirst.floatbar.tools-row:not(.tools-min) #tools > .tools-grip{width:26px}}   /* the minimal circle keeps 44 */
 /* a phone turned (a screen less than 420 px high; 28 October 2026): the column of the compact toolbar, one tool longer since the line
    width joined it, folds into a second column instead of running past the screen's edge; every button still 44 */
 @media (max-height:420px){html.pagefirst.floatbar:not(.tools-row) .app > div.chrome > .tools{flex-wrap:wrap;max-height:calc(100dvh - 50px);border-radius:26px;align-content:flex-start}}
 .expanded .tone-panel .tone-how{display:none}   /* "Expand": the controls without their words, as before */
+
+/* "Expand" on a 320 px screen (js/shell.js fitBar; the author's choice, 28 October 2026): where the way out would lose its words, in the
+   floating toolbar with all its tools (2.2, 2.3), or in "More" (2.1, whose toolbar row is full), not in the bar; in "Expand" the bar
+   keeps "Show all" */
+#tools > #expandTool{display:none}
+#menu > #expandItem{display:none}
+@media (max-width:340px){
+  html.expand-in-tools:not(.expanded) .top > #expand{display:none}
+  html.floatbar.expand-in-tools:not(.expanded) #tools > #expandTool{display:flex}
+  html.floatbar.tools-folded #tools > #expandTool,html.floatbar.tools-min #tools > #expandTool{display:none}
+  html.expand-in-tools:not(.expanded):not(.floatbar) #menu > #expandItem{display:block}   /* 2.1: in "More" */
+}

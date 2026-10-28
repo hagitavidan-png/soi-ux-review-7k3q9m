@@ -38,9 +38,13 @@ Studio.register('detail', {
       var r = d.getBoundingClientRect();
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
     });
+    /* opened from My artworks: the lesson opens this artwork's Studio again with the way back to My artworks (js/player.js
+       openStudio), not to the lesson's end (UX review, 28 October 2026) */
+    function keepWay() { try { if (S.gallery) sessionStorage.setItem('studio-ctx:' + LESSON, JSON.stringify({ art: S.art, back: S.gallery })); } catch (e) {} }
     d.querySelector('.detail-change').addEventListener('click', function () {
       /* the lesson player continues this artwork's attempt (js/player.js pin), not the newest one */
       try { sessionStorage.setItem('run:' + LESSON, data.run.id); } catch (e) {}
+      keepWay();
       S.leaveTo('../index.html#/lesson/' + LESSON + '/play/discover');
     });
     function url(w) { return '../' + w.hi + '.jpg'; }
@@ -93,6 +97,7 @@ Studio.register('detail', {
       open: function () { if (data) open.click(); },
       closeLook: function () {
         try { if (mine) sessionStorage.setItem('run:' + LESSON, mine.id); } catch (e) {}
+        keepWay();
         S.leaveTo('../index.html#/lesson/' + LESSON + '/play/discover');
       }
     };

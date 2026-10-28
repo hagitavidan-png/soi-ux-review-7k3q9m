@@ -195,7 +195,7 @@ window.Artworks = (function () {
   }
 
   /* ── lesson runs ── */
-  function newRun(lesson) { try { sessionStorage.removeItem('run:' + lesson); } catch (e) {} var t = now(); return put('runs', { id: newId(), lesson: lesson, artwork: null, createdAt: t, updatedAt: t }); }
+  function newRun(lesson) { try { sessionStorage.removeItem('run:' + lesson); sessionStorage.removeItem('studio-ctx:' + lesson); } catch (e) {} var t = now(); return put('runs', { id: newId(), lesson: lesson, artwork: null, createdAt: t, updatedAt: t }); }
   function putRun(r) { r.createdAt = r.createdAt || now(); r.updatedAt = now(); return put('runs', r); }
   /* the run's one artwork, made the first time it is asked for (with the medium given). Asked for again, it is
      the same artwork; an empty one takes the medium given, one with work in it keeps its own. The run is read and
