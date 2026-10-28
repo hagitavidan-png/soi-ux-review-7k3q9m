@@ -6,9 +6,9 @@
    colour chosen now in its middle (it was a dot of that colour only, black at first). */
 Studio.register('color', {
   strings: {
-    he: { color: 'צבע', custom: 'צבע נוסף', colors: 'צבעים', cpGrid: 'רשת', cpSpectrum: 'ספקטרום', cpSliders: 'מחוונים',
+    he: { help_color: 'בוחרים צבע',  color: 'צבע', custom: 'צבע נוסף', colors: 'צבעים', cpGrid: 'רשת', cpSpectrum: 'ספקטרום', cpSliders: 'מחוונים',
           cpRed: 'אדום', cpGreen: 'ירוק', cpBlue: 'כחול', cpNow: 'הצבע הנוכחי', cpNew: 'הצבע החדש', cpOk: 'בחירה', cpCancel: 'ביטול' },
-    en: { color: 'Colour', custom: 'Another colour', colors: 'Colours', cpGrid: 'Grid', cpSpectrum: 'Spectrum', cpSliders: 'Sliders',
+    en: { help_color: 'Choose a colour',  color: 'Colour', custom: 'Another colour', colors: 'Colours', cpGrid: 'Grid', cpSpectrum: 'Spectrum', cpSliders: 'Sliders',
           cpRed: 'Red', cpGreen: 'Green', cpBlue: 'Blue', cpNow: 'Current colour', cpNew: 'New colour', cpOk: 'Choose', cpCancel: 'Cancel' }
   },
   init: function (S) {

@@ -27,7 +27,7 @@ window.Studio = (function () {
 
   /* texts of the studio itself; each tool adds its own */
   var TEXT = {
-    he: { back: 'חזרה לשיעור', title: 'היצירה שלי', undo: 'בטל', redo: 'בצע שוב', clear: 'נקה', save: 'שמור', cancel: 'ביטול',
+    he: { back: 'חזרה לשיעור', backEnd: 'לסיום השיעור', title: 'היצירה שלי', undo: 'בטל', redo: 'בצע שוב', clear: 'נקה', save: 'שמור', cancel: 'ביטול',
           exit: 'צא', clearQ: 'לנקות את כל היצירה?', unsaved: 'יש שינויים שלא נשמרו.', saved: 'היצירה נשמרה',
           saveFailed: 'השמירה נכשלה', opened: 'העבודה השמורה נפתחה', canvas: 'משטח הציור', backGallery: 'חזרה ליצירות שלי', works: 'היצירות שלי',
           autoSaved: 'נשמר', kept: 'נשמר', doneSaved: 'היצירה נשמרה', restart: 'להתחיל מחדש', restartQ: 'לנקות את הדף ולהתחיל מחדש?', newQ: 'רוצים להתחיל ציור חדש? הציור הנוכחי יישמר בגלריה ותוכלו לחזור אליו בכל זמן.', newYes: 'ציור חדש', newNo: 'ביטול', restartCancel: 'לבטל',
@@ -36,8 +36,8 @@ window.Studio = (function () {
           moveHint: 'אפשר להזיז את הדף בשתי אצבעות',
           saveNow: 'שמירת הציור', savedNow: 'הציור נשמר', saveNowFailed: 'השמירה נכשלה. הציור עדיין פתוח – נסו שוב.',
           varyToggle: 'הגדרות דפוס', panelOpen: 'הצגת כל הכלים וההגדרות', panelClose: 'סרגל כלים מצומצם',
-          howTo: 'איך משתמשים?', soon: 'ההדרכה בהכנה', toolsFold: 'פחות כלים', toolsShow: 'הצגת כל הכלים', toolsOpen: 'פתיחת הכלים (גוררים כדי להזיז)', toolsHide: 'הסתרת הכלים (גוררים כדי להזיז)' },
-    en: { back: 'Back to the lesson', title: 'My artwork', undo: 'Undo', redo: 'Redo', clear: 'Clear', save: 'Save', cancel: 'Cancel',
+          howTo: 'איך משתמשים?', soon: 'ההדרכה בהכנה', helpBack: 'חזרה ליצירה', help_undo: 'צעד אחורה', help_redo: 'צעד קדימה, אחרי ״בטל״', help_fingers: 'שתי אצבעות: מגדילים ומזיזים את הדף', toolsFold: 'פחות כלים', toolsShow: 'הצגת כל הכלים', toolsOpen: 'פתיחת הכלים (גוררים כדי להזיז)', toolsHide: 'הסתרת הכלים (גוררים כדי להזיז)' },
+    en: { back: 'Back to the lesson', backEnd: 'To the end of the lesson', title: 'My artwork', undo: 'Undo', redo: 'Redo', clear: 'Clear', save: 'Save', cancel: 'Cancel',
           exit: 'Leave', clearQ: 'Clear the whole artwork?', unsaved: 'There are unsaved changes.', saved: 'Artwork saved',
           saveFailed: 'Could not save', opened: 'Your saved work is open', canvas: 'Drawing area', backGallery: 'Back to my artworks', works: 'My artworks',
           autoSaved: 'Saved', kept: 'Kept', doneSaved: 'Your artwork is saved', restart: 'Start over', restartQ: 'Clear the page and start over?', newQ: "Start a new drawing? Your current artwork will stay in My Artworks, so you can return to it anytime.", newYes: 'New drawing', newNo: 'Cancel', restartCancel: 'Cancel',
@@ -46,7 +46,7 @@ window.Studio = (function () {
           moveHint: 'Move the page with two fingers',
           saveNow: 'Save artwork', savedNow: 'Artwork saved', saveNowFailed: "Couldn't save. Your drawing is still open – try again.",
           varyToggle: 'Pattern settings', panelOpen: 'Show all tools and settings', panelClose: 'Compact toolbar',
-          howTo: 'How to use?', soon: 'The guide is being prepared', toolsFold: 'Fewer tools', toolsShow: 'Show all tools', toolsOpen: 'Open the tools (drag to move)', toolsHide: 'Hide the tools (drag to move)' }
+          howTo: 'How to use?', soon: 'The guide is being prepared', helpBack: 'Back to my artwork', help_undo: 'One step back', help_redo: 'One step forward, after Undo', help_fingers: 'Two fingers: make the page bigger and move it', toolsFold: 'Fewer tools', toolsShow: 'Show all tools', toolsOpen: 'Open the tools (drag to move)', toolsHide: 'Hide the tools (drag to move)' }
   };
 
   var caps = {};          // registered tools: id → { strings, init(api) }
@@ -655,6 +655,7 @@ window.Studio = (function () {
     if (activity.pageFirst) document.documentElement.classList.add('pagefirst');   // 2.2, version 41: the page first; wide or tall (layout below; studio.css)
 
     BACK = safeBack(Q.get('back')) || safeBack(activity.back) || '../../index.html';
+    if (activity.backEnd) T.back = T.backEnd;   // the lesson's end screen is where "Back" goes (2.1–2.3): it says so
     if (Q.get('ctx') === 'gallery') T.back = T.backGallery;   // opened from the app's "My artworks"
     ENTRY = id;
     KEY = 'studio-v2:' + activity.lesson + ':' + activity.id;

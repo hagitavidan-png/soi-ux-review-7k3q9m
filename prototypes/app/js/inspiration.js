@@ -8,7 +8,8 @@
    next go through its section (buttons, arrow keys, a swipe), "All the images" goes back. A link card is an artist
    whose works may not be copied here: their words and a link to an official site, in a new tab.
    Inspiration.open({ lesson, lang, base ('' from the app, '../' from the Studio), section (an id: open at it), from
-   (the button: the focus comes back to it), close (the closing button's words), onClose }).
+   (the button: the focus comes back to it), close (the closing button's words), x (true: the closing button also has a ✕, as the
+   Studio's own gallery: back to the work, always in view; 28 October 2026), onClose }).
    Self-contained (its own words and styles), so the lesson and the Studio load the same file. */
 window.Inspiration = (function () {
   'use strict';
@@ -30,7 +31,7 @@ window.Inspiration = (function () {
     '.insp-wrap{display:grid;grid-template-rows:auto auto 1fr;height:100%}' +
     '.insp-top{display:flex;align-items:center;gap:12px;padding:10px max(16px,env(safe-area-inset-left,0px)) 6px;padding-inline-end:max(16px,env(safe-area-inset-right,0px))}' +
     '.insp-top h2{margin:0;font-size:clamp(1.15rem,1rem + .8vw,1.8rem);flex:1}' +
-    '.insp-btn{font:inherit;font-weight:600;border-radius:999px;border:1px solid var(--i-ink);background:var(--i-ink);color:var(--i-bg);padding:8px 18px;min-height:44px;cursor:pointer}' +
+    '.insp-btn{font:inherit;font-weight:600;border-radius:999px;border:1px solid var(--i-ink);background:var(--i-ink);color:var(--i-bg);padding:8px 18px;min-height:44px;cursor:pointer}.insp-x{margin-inline-end:8px;font-size:.95em}' +
     '.insp-btn.quiet{background:transparent;color:var(--i-ink)}' +
     '.insp-note summary:focus-visible,.insp-btn:focus-visible,.insp-pickbtn:focus-visible,.insp-opt:focus-visible,.insp-tile:focus-visible,.insp-card a:focus-visible,.insp-step:focus-visible,.insp-src a:focus-visible{outline:3px solid var(--i-accent);outline-offset:2px}' +
     '.insp-pick{position:relative;z-index:2;padding:2px max(16px,env(safe-area-inset-left,0px)) 10px;padding-inline-end:max(16px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--i-rule)}' +
@@ -89,7 +90,7 @@ window.Inspiration = (function () {
     var d = document.createElement('dialog');
     d.className = 'insp'; d.setAttribute('dir', rtl ? 'rtl' : 'ltr'); d.setAttribute('lang', lang); d.setAttribute('aria-label', T.title);
     d.innerHTML = '<div class="insp-wrap">' +
-      '<div class="insp-top"><h2>' + esc(T.title) + '</h2><button type="button" class="insp-btn insp-close">' + esc(o.close || T.close) + '</button></div>' +
+      '<div class="insp-top"><h2>' + esc(T.title) + '</h2><button type="button" class="insp-btn insp-close">' + (o.x ? '<span class="insp-x" aria-hidden="true">✕</span>' : '') + esc(o.close || T.close) + '</button></div>' +
       '<nav class="insp-pick" aria-label="' + esc(T.sections) + '"><button type="button" class="insp-pickbtn" aria-expanded="false" aria-controls="insp-menu">' + esc(T.pick) +
         CHEV + '<path d="M6 9l6 6 6-6"/></svg></button><ul class="insp-menu" id="insp-menu" hidden>' + data.sections.map(function (s) {
         return '<li><button type="button" class="insp-opt" data-sec="' + esc(s.id) + '">' + esc(tx(s.title)) + '</button></li>';

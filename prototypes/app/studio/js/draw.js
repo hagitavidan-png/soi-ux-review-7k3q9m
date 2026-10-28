@@ -6,8 +6,8 @@ Studio.register('draw', {
   tool: 'brush',   // the tool that is on when this capability comes first in the activity
   strings: {
     /* lineWidth, not size: the line width has its own word (Repeat's size is another thing; the tools share one table) */
-    he: { brush: 'מכחול', lineWidth: 'עובי קו', eraser: 'מחק', thin: 'דק', medium: 'בינוני', thick: 'עבה', sizes: 'עובי' },
-    en: { brush: 'Brush', lineWidth: 'Line width', eraser: 'Eraser', thin: 'Thin', medium: 'Medium', thick: 'Thick', sizes: 'Line width' }
+    he: { brush: 'מכחול', help_brush: 'מציירים בקו חופשי', help_size: 'עובי הקו: דק, בינוני או עבה', help_eraser: 'מוחקים קווים', lineWidth: 'עובי קו', eraser: 'מחק', thin: 'דק', medium: 'בינוני', thick: 'עבה', sizes: 'עובי' },
+    en: { brush: 'Brush', help_brush: 'Draw freely', help_size: 'Line width: thin, medium or thick', help_eraser: 'Erase lines', lineWidth: 'Line width', eraser: 'Eraser', thin: 'Thin', medium: 'Medium', thick: 'Thick', sizes: 'Line width' }
   },
   init: function (S) {
     'use strict';

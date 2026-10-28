@@ -15,6 +15,8 @@
               the author's device); 'classic': the layouts made before it, kept until each move is approved (the list at the end)
    primaryTools  the toolbar ids shown in the floating toolbar's compact state, in the toolbar's order; without it brush,
               eraser, colour, line width and undo (ARCHITECTURE.md)
+   backEnd    true: "Back" goes to the lesson's end screen, and says so ("To the end of the lesson"; the author's approval of 28
+              October 2026, after the UX review: where it goes stays as it was)
    promptLine true: in the floating workspace the line (prompt) stays above the work, as in the classic layouts; without it the
               line is said once, briefly, as the Studio opens (2.2) */
 window.STUDIO_ACTIVITIES = {
@@ -164,6 +166,7 @@ window.STUDIO_ACTIVITIES = {
   /* 21 October 2026 (approved): a new work begun on an upright phone is on a 4:5 page (canvas.portrait, js/core.js), its
      own shape from then on; and "Creating on paper" in "More" goes to the lesson's paper screen (its route sets the run
      to paper, the drawing kept: ../js/app.js, js/player.js) */
+  A['2-1-create'].backEnd = true;   // "Back" goes to the lesson's end screen: it says so (28 October 2026)
   ['2-1-create', '2-1-free'].forEach(function (id) { A[id].canvas = { aspect: '4:3', portrait: '4:5', landscape: '16:10' }; });   // landscape: a new work on a tablet held sideways (22 October 2026)
   A['2-1-create'].paper = { href: '../index.html#/lesson/2-1/play/6/paper', label: { he: 'יוצרים על נייר', en: 'Creating on paper' } };
   A['2-1-create'].tools.push('refs');
@@ -193,15 +196,16 @@ window.STUDIO_ACTIVITIES['3-1-draw'] = { id: '3-1-draw', lesson: '3.1-app', tool
    review of preview Version 5); 2.3 has one making step, so it is the same question wherever the work is opened,
    My artworks too (2.1's line belongs to one step of its own, 2-1-play) */
 window.STUDIO_ACTIVITIES['2-3-light'] = { id: '2-3-light', lesson: '2.3-app', tools: ['draw', 'color', 'light', 'refs'], canvas: { aspect: '4:5' },
-  /* the shared workspace (stage 2, approved 25 October 2026): the page first, the floating toolbar in three states; light and shadow,
-     the lesson's own way of working, among the compact toolbar's tools in place of the line width (in the full toolbar) */
-  workspace: 'floating', primaryTools: ['brush', 'eraser', 'color', 'tone', 'undo'], promptLine: true,   // promptLine: the approved line stays above the work
-  clear: false, restart: true, works: '2-2', back: '../index.html#/lesson/2-2',
+  /* the shared workspace (stage 2, approved 25 October 2026): the page first, the floating toolbar in three states. The compact
+     toolbar as in every lesson (the author's approval of 28 October 2026, after the UX review): brush, eraser, colour, line width
+     and undo, with the lesson's own tool, light and shadow, beside them */
+  workspace: 'floating', primaryTools: ['brush', 'eraser', 'color', 'size', 'tone', 'undo'], promptLine: true,   // promptLine: the approved line stays above the work
+  clear: false, restart: true, works: '2-2', back: '../index.html#/lesson/2-2', backEnd: true,
   prompt: { he: 'איך אור וצל יכולים לשנות את הציור שלכם?', en: 'How can light and shadow transform your artwork?' },
   next: { label: { he: 'סיימתי לעכשיו', en: "I'm done for now" } },
-  /* content.toneHint: one line over the Light & Shadow controls, while they are open (js/light.js; the author's words of
-     17 October) */
-  content: { toneHint: { he: 'שנו את האור והצל וראו מה קורה לציור שלכם.', en: 'Change the light and shadow. See what happens to your drawing.' },
+  /* (the line over the Light & Shadow controls, content.toneHint, gave way on 28 October 2026 to the tool's own small picture and
+     words, js/light.js) */
+  content: {
     refs: [
     { src: '../images/2-3/vase-strong-light.png', alt: { he: 'האגרטל באור חזק', en: 'The vase in strong light' } },
     { src: '../images/2-3/vase-soft-light.png', alt: { he: 'האגרטל באור רך', en: 'The vase in soft light' } },
@@ -224,7 +228,7 @@ window.STUDIO_ACTIVITIES['2-3-light'] = { id: '2-3-light', lesson: '2.3-app', to
    above the work follows the lesson's task */
 window.STUDIO_ACTIVITIES['2-2-close-draw'] = { id: '2-2-close-draw', lesson: '2.2-app', tools: ['draw', 'color', 'table', 'detail', 'refs'], canvas: { aspect: '4:5' },
   workspace: 'floating',   // the page first (version 41) and the floating toolbar in three states (versions 44–49, approved on the author's device): the shared workspace (ARCHITECTURE.md)
-  clear: false, restart: true, works: '2-2-close', back: '../index.html#/lesson/2-2-close/play/end',
+  clear: false, restart: true, works: '2-2-close', back: '../index.html#/lesson/2-2-close/play/end', backEnd: true,
   prompt: { he: 'צרו מהפרט שבחרתם משהו חדש.', en: 'Create something new from the detail you chose.' },
   next: { label: { he: 'סיימתי לעכשיו', en: "I'm done for now" } },
   paper: { href: '../index.html#/lesson/2-2-close/play/7/paper', label: { he: 'יוצרים על נייר', en: 'Creating on paper' } },

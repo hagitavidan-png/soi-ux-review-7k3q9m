@@ -565,6 +565,13 @@ a.sh-item:hover{border-color:var(--ink)}
 .cu-frame{touch-action:none}
 /* nothing chosen yet: the photograph whole and clear, no frame, nothing darkened; the zoom and the detail wait for the learner's choice */
 .cu-free .cu-frame{display:none}
+/* before the first choice (28 October 2026): a dashed frame in the middle and one line; nothing to press, the photograph takes the touch */
+.cu-cue{display:none;position:absolute;inset:0;pointer-events:none}
+.cu-cueing .cu-cue{display:block}
+.cu-cue-box{position:absolute;left:50%;top:50%;width:34%;aspect-ratio:1;transform:translate(-50%,-50%);border:3px dashed #fff;border-radius:6px;box-shadow:0 0 0 2px rgba(0,0,0,.3)}
+.cu-cue-tag{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;max-width:calc(100% - 16px);padding:5px 12px 5px 10px;border-radius:999px;background:var(--card,#fffdf9);color:var(--ink,#242424);font-size:.9rem;font-weight:700;line-height:1.2;box-shadow:0 3px 10px rgba(0,0,0,.2);white-space:nowrap}
+.cu-cue-tag svg{width:22px;height:22px;flex:none}
+.cu-cueing .cu-pickhint{display:none}   /* the line over the photograph says it */
 .cu-free .cu-view{cursor:zoom-in}
 .cu-pickhint{margin:6px 0 0;font-size:.9rem;line-height:1.35;color:var(--ink-2);text-align:center}
 .cu-free .cu-peek{opacity:.45;cursor:default}

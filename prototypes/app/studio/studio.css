@@ -269,6 +269,12 @@ dialog.refs[open]{display:flex;flex-direction:column;gap:12px}
 .refs-count{min-width:3.5em;text-align:center;font-size:.9rem;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .refs-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 .refs-row .btn{flex:1 1 auto;max-width:280px}
+/* back to the work, always in view (28 October 2026): the ✕ at the top and the row at the bottom stay while the images scroll */
+dialog.refs .refs-top{position:sticky;top:-14px;z-index:2;display:flex;align-items:center;gap:10px;margin:-14px -14px 0;padding:12px 14px 6px;background:var(--sheet)}
+dialog.refs .refs-top .refs-h{flex:1;margin:0}
+.refs-x{flex:none;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--rule);background:var(--sheet);color:var(--ink);font-size:1.05rem;cursor:pointer}
+.refs-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+dialog.refs > .refs-row{position:sticky;bottom:-12px;z-index:2;margin:0 -14px -12px;padding:10px 14px 12px;background:var(--sheet);box-shadow:0 -8px 14px -10px rgba(43,42,40,.35)}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 #tone{flex-grow:1.3}   /* the one two-word tool: a little more room, so no word is cut */
 
@@ -848,3 +854,36 @@ html.floatbar.tools-min .tools-grip .grip-now{display:flex}
 html.pagefirst.floatbar.tools-min #tools > .tools-grip .grip-now svg{width:20px;height:20px}
 html.floatbar.tools-min .tools-grip .grip-plus{display:flex;align-items:center;justify-content:center;position:absolute;inset-inline-end:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;box-shadow:0 0 0 2px var(--sheet)}
 html.pagefirst.floatbar.tools-min #tools > .tools-grip .grip-plus svg{width:10px;height:10px}
+
+
+/* "How to use?" (js/shell.js help; 28 October 2026): the activity's own tools, each with its icon and one line */
+dialog.help{width:min(440px,calc(100vw - 16px))}
+.help-list{list-style:none;margin:0;padding:0}
+.help-list li{display:flex;align-items:center;gap:12px;padding:6px 2px;border-bottom:1px solid var(--rule);font-size:.98rem;line-height:1.3}
+.help-list li:last-child{border-bottom:0}
+.help-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--rule);color:var(--ink)}
+.help-ic svg{width:22px;height:22px}
+.help-ic .size-dot,.help-ic .color-wheel,.help-ic .tone-icon{transform:scale(.9)}
+
+/* light and shadow, how it is used (js/light.js; 28 October 2026): a small picture and three words over the controls; the light
+   spreads under a moving finger three times, then rests; on an empty page, what comes first */
+.tone-how{display:flex;align-items:center;justify-content:center;gap:8px;margin:-2px 0 -2px;font-size:.88rem;font-weight:700;line-height:1.25;color:var(--ink);text-align:center}
+.tone-how-first{font-weight:600;color:var(--ink-2)}
+.tone-demo{flex:none;width:58px;height:26px;overflow:visible}
+.tone-demo-line{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linecap:round}
+.tone-demo-glow{fill:none;stroke:#f3d98a;stroke-width:11;stroke-linecap:round;opacity:.9;stroke-dasharray:30;stroke-dashoffset:0}
+.tone-demo-hand circle{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6}
+.tone-demo-hand{transform:translate(26px,17px)}
+.tone-demo.play .tone-demo-glow{animation:toneGlow 1.5s ease-in-out 3 both}
+.tone-demo.play .tone-demo-hand{animation:toneHand 1.5s ease-in-out 3 both}
+@keyframes toneGlow{0%{stroke-dashoffset:30}70%,100%{stroke-dashoffset:0}}
+@keyframes toneHand{0%{transform:translate(5px,19px)}70%,100%{transform:translate(26px,17px)}}
+.tone-how-first .tone-demo-glow,.tone-how-first .tone-demo-hand{display:none}
+@media (prefers-reduced-motion:reduce){.tone-demo.play .tone-demo-glow,.tone-demo.play .tone-demo-hand{animation:none}}
+/* the narrowest phones (360 px; 28 October 2026): the compact toolbar of six tools, the grip and "Show all" stays one row – the grip
+   a little narrower there (its height, the part dragged, as before); every button still 44 */
+@media (max-width:370px){html.pagefirst.floatbar.tools-row.tools-folded #tools > .tools-grip,html.pagefirst.floatbar.tools-row #tools > .tools-grip{width:26px}}
+/* a phone turned (a screen less than 420 px high; 28 October 2026): the column of the compact toolbar, one tool longer since the line
+   width joined it, folds into a second column instead of running past the screen's edge; every button still 44 */
+@media (max-height:420px){html.pagefirst.floatbar:not(.tools-row) .app > div.chrome > .tools{flex-wrap:wrap;max-height:calc(100dvh - 50px);border-radius:26px;align-content:flex-start}}
+.expanded .tone-panel .tone-how{display:none}   /* "Expand": the controls without their words, as before */

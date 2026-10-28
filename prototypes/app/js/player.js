@@ -447,7 +447,12 @@ window.Player = (function () {
     if (s.step === 'studio' && !studio && side.stages) {
       body = (kd && kd.lead || '') + '<ol class="pl-stages pl-stages-all">' + (side.stages[I.lang()] || []).map(function (v) { return '<li>' + v + '</li>'; }).join('') + '</ol>' + body;   // kd.lead (2.2): the detail chosen, above the stages
       action = { label: ACT('finishedCreating'), go: function () { run.begun = true; go(n + 1); } };
-      if (s.studio && s.studio.activity) extra = { label: ACT('toStudio'), button: true, go: function () {
+      if (s.studio && s.studio.activity) extra = toStudio();
+    }
+    /* "Continue to Studio" on a paper screen that asks for it (side.toStudio: 2.3, the author's approval of 28 October 2026, as
+       in 2.1 and 2.2): straight into the Studio on the run's artwork, the paper kept */
+    function toStudio() {
+      return { label: ACT('toStudio'), button: true, go: function () {
         run.medium = 'studio';
         keep().then(function () { return W.artworkFor(run.id, 'digital'); })
           .then(function (w) { run.artwork = w.id; openStudio(s.studio.activity, s.studio.back); });
@@ -455,6 +460,7 @@ window.Player = (function () {
     }
     if (side.inspire && !(s.step === 'studio' && studio)) body += inspireBtn(side.inspire);
     if (s.step === 'studio' && !studio && side.action) action.label = ACT(side.action);
+    if (s.step === 'studio' && !studio && side.toStudio && !extra && s.studio && s.studio.activity) extra = toStudio();
     if (s.step === 'studio' && !studio && side.refs) body += '<button type="button" class="pl-refs">' + REFS + '<span>' + esc(I.ui('inspiration')) + '</span></button>';
     /* looking at what emerged (2.1: 11): then straight back to the making */
     if (s.step === 'notice' && studio) { body += preview; action = { label: ACT('keepCreating'), go: function () { go(n + 1); } }; }

@@ -14,9 +14,9 @@
    else (core.js record / apply). */
 Studio.register('table', {
   strings: {
-    he: { table: 'שולחן אור', tableFloat: 'תמונת השראה', tableFloatShort: 'תמונת השראה', tableNone: 'ללא תמונה', tableMode: 'איך להציג את הפרט',
+    he: { help_table: 'שולחן האור: הפרט מתחת לדף',  table: 'שולחן אור', tableFloat: 'תמונת השראה', tableFloatShort: 'תמונת השראה', tableNone: 'ללא תמונה', tableMode: 'איך להציג את הפרט',
           tableOpacity: 'נראות התמונה', tableHideFloat: 'להסתיר את תמונת ההשראה', tableFloatName: 'תמונת ההשראה. אפשר לגרור אותה לכל מקום' },
-    en: { table: 'Light table', tableFloat: 'Reference image', tableFloatShort: 'Reference', tableNone: 'No reference', tableMode: 'How to show the detail',
+    en: { help_table: 'Light table: the detail under the page',  table: 'Light table', tableFloat: 'Reference image', tableFloatShort: 'Reference', tableNone: 'No reference', tableMode: 'How to show the detail',
           tableOpacity: 'Image visibility', tableHideFloat: 'Hide the reference image', tableFloatName: 'The reference image. Drag it anywhere' }
   },
   tool: null,

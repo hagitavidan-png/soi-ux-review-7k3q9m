@@ -80,7 +80,9 @@ window.APP_LESSONS['2-2'] = {
   actions: {
     keepCreating: { he: 'להמשיך ליצור', en: 'Keep creating' },
     doneForNow: { he: 'סיימתי לעכשיו', en: "I'm done for now" },
-    anotherTime: { he: 'להמשיך בפעם אחרת', en: 'Come back to it later' }
+    anotherTime: { he: 'להמשיך בפעם אחרת', en: 'Come back to it later' },
+    finishedCreating: { he: 'סיימתי ליצור', en: "I've finished creating" },   // the paper screen, as in 2.1 and 2.2 (28 October 2026)
+    toStudio: { he: 'ממשיכים לסטודיו', en: 'Continue to Studio' }
   },
   screens: [
     /* 1 */ { board: 'inspiration',
@@ -125,7 +127,7 @@ window.APP_LESSONS['2-2'] = {
        October: the materials, light and dark, ways of working), the quieter line that one artwork is enough,
        "Inspiration" (the lesson's images, to look at again while drawing), and the learner says when it is enough for now */
     /* 5 */ { step: 'studio', studio: { activity: '2-3-light', back: 6 },
-              paper: { title: { he: 'יוצרים על נייר', en: 'Creating on Paper' }, action: 'doneForNow',
+              paper: { title: { he: 'יוצרים על נייר', en: 'Creating on Paper' }, action: 'finishedCreating', toStudio: true,   // as in 2.1 and 2.2 (28 October 2026)
                        steps: { he: ['הכינו דף נייר ובחרו את החומרים שאיתם תרצו לעבוד: עפרונות, עפרונות צבעוניים, פחם, פסטל, טושים או צבעי מים.',
                                      'התחילו בציור החפץ או המקום שבחרתם. הוסיפו אזורים בהירים וכהים ונסו ליצור הבדלים בין אור לצל.',
                                      'אפשר לעבוד בשכבות, למחוק, לטשטש או להוסיף צבע. מותר לשנות כיוון תוך כדי העבודה.'],

@@ -16,8 +16,10 @@
    Repeat. Works painted before 16 October keep their operations; they are now shown this way. */
 Studio.register('light', {
   strings: {
-    he: { light: 'אור', shadow: 'צל', toneClear: 'מחק אור וצל', toneSize: 'גודל', toneStrength: 'עוצמה', toneTools: 'אור וצל' },
-    en: { light: 'Light', shadow: 'Shadow', toneClear: 'Erase light & shadow', toneSize: 'Size', toneStrength: 'Strength', toneTools: 'Light & shadow' }
+    he: { light: 'אור', shadow: 'צל', toneClear: 'מחק אור וצל', toneSize: 'גודל', toneStrength: 'עוצמה', toneTools: 'אור וצל',
+          toneDrag: 'גררו על הציור', toneFirst: 'קודם מציירים, ואז מוסיפים אור וצל', help_tone: 'גוררים על הציור: אור או צל' },
+    en: { light: 'Light', shadow: 'Shadow', toneClear: 'Erase light & shadow', toneSize: 'Size', toneStrength: 'Strength', toneTools: 'Light & shadow',
+          toneDrag: 'Drag over your drawing', toneFirst: 'Draw first, then add light and shadow', help_tone: 'Drag over your drawing: light or shadow' }
   },
   init: function (S) {
     'use strict';
@@ -163,7 +165,7 @@ Studio.register('light', {
       onClick: function () {
         var shown = !S.$('tonePanel').hidden, was = on();
         pick(mode);
-        if (was && shown) S.closePanels(); else if (!shown) S.togglePanel('tonePanel', 'tone');
+        if (was && shown) S.closePanels(); else if (!shown) { S.togglePanel('tonePanel', 'tone'); telling(); replay(); }
       },
       update: function (b) {
         b.setAttribute('aria-pressed', String(on()));
@@ -181,9 +183,21 @@ Studio.register('light', {
       b.addEventListener('click', function () { pick(m); });
       modes.appendChild(b);
     });
-    /* the activity's line for the tool, over its controls (activity.content.toneHint): there only while they are open */
-    var hint = S.activity.content.toneHint && S.activity.content.toneHint[S.lang];
-    if (hint) { var h = document.createElement('p'); h.className = 'hint tone-hint'; h.textContent = hint; tp.appendChild(h); }
+    /* how it is used, over its controls (the author's approval of 28 October 2026, after the UX review): a small picture of a
+       finger dragging over a line, the light spreading under it (it moves three times, then rests), and three words; on a page
+       with nothing drawn yet, what comes first instead. Small, beside the tool, never over the work */
+    var how = document.createElement('p'); how.className = 'tone-how';
+    how.innerHTML = '<svg class="tone-demo" viewBox="0 0 64 28" aria-hidden="true"><path class="tone-demo-line" d="M3 21C11 5 19 5 27 18S45 27 61 7"/>' +
+      '<path class="tone-demo-glow" d="M5 19C12 8 19 8 26 17"/><g class="tone-demo-hand"><circle cx="0" cy="0" r="4.5"/></g></svg><span class="tone-how-t"></span>';
+    tp.appendChild(how);
+    function drawn() { return S.split().source.some(function (op) { return op.t === 'stroke' && op.tool !== 'eraser'; }); }
+    function telling() {
+      var first = !drawn();
+      how.classList.toggle('tone-how-first', first);
+      how.querySelector('.tone-how-t').textContent = first ? S.T.toneFirst : S.T.toneDrag;
+    }
+    function replay() { var d = how.querySelector('.tone-demo'); d.classList.remove('play'); void d.getBoundingClientRect(); d.classList.add('play'); }
+    S.watch(telling);
     tp.appendChild(modes);
     var ranges = document.createElement('div'); ranges.className = 'tone-ranges';
     tp.appendChild(ranges);
@@ -203,6 +217,6 @@ Studio.register('light', {
       var k = tp.querySelector('.tone-strength'); if (k) { k.classList.toggle('off', mode === 'toneClear'); k.querySelector('input').disabled = mode === 'toneClear'; }
     }
     S.stage.appendChild(tp);
-    marks();
+    marks(); telling();
   }
 });

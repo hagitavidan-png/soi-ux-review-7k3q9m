@@ -22,7 +22,7 @@ window.Closeup = (function () {
   var I = window.I18N;
 
   var STR = {
-    he: { far: 'רחוק', close: 'קרוב', zoom: 'קרוב או רחוק', closer: 'להתקרב', farther: 'להתרחק', enlarge: 'להגדיל', backPic: 'חזרה לתמונה',
+    he: { cue: 'הקישו על מה שמסקרן אתכם', far: 'רחוק', close: 'קרוב', zoom: 'קרוב או רחוק', closer: 'להתקרב', farther: 'להתרחק', enlarge: 'להגדיל', backPic: 'חזרה לתמונה',
           surprise: 'הפתיעו אותי', keep: 'שמרו את הפרט שבחרתם', saved: 'השראה שמורה', savedN: 'שמרתם {n} פרטים', savedOne: 'שמרתם פרט אחד', other: 'תמונה אחרת', source: 'מקור וזכויות', empty: 'שמרו פרט מעניין, והוא יחכה לכם כאן.',
           detailN: 'פרט {n}', removeDetail: 'הסרת פרט {n}', goDetail: 'חזרה לפרט {n}', photos: 'התמונות', photo: 'התמונה: {what}',
           frame: 'מבט מקרוב. גררו כדי להזיז, או הקישו על מקום בתמונה', detail: 'הפרט בהגדלה', justSaved: 'נשמר', already: 'הפרט הזה כבר שמור. הזיזו את המסגרת או שנו את הקרבה כדי לשמור פרט אחר.', full: 'אפשר לשמור עד {n} פרטים. אפשר להסיר פרט שמור.',
@@ -30,7 +30,7 @@ window.Closeup = (function () {
           swapN: 'להחליף את פרט {n} בפרט הזה', swapped: 'הפרט הוחלף', pick: 'הקישו על מקום בתמונה שמסקרן אתכם, או התקרבו בשתי אצבעות.',
           more: 'לגלות עוד צילומים', allPhotos: 'כל הצילומים', keptOne: 'פרט שמור', keptN: 'פרטים שמורים', go: 'להמשיך', goKept: 'להמשיך עם הפרטים השמורים',
           hasKept: '{what}, יש בו פרטים שמורים', mine: 'הפרטים שלי', backLook: 'חזרה להתבוננות', backDetail: 'חזרה לפרט', prevPhoto: 'הצילום הקודם', nextPhoto: 'הצילום הבא' },
-    en: { far: 'Far', close: 'Close', zoom: 'Closer or farther', closer: 'Closer', farther: 'Farther', enlarge: 'Enlarge', backPic: 'Back to the picture',
+    en: { cue: 'Tap what makes you curious', far: 'Far', close: 'Close', zoom: 'Closer or farther', closer: 'Closer', farther: 'Farther', enlarge: 'Enlarge', backPic: 'Back to the picture',
           surprise: 'Surprise me', keep: 'Save the detail you chose', saved: 'Saved inspiration', savedN: 'You saved {n} details', savedOne: 'You saved 1 detail', other: 'Another photo', source: 'Source and rights', empty: 'Save a detail that interests you, and it will wait for you here.',
           detailN: 'Detail {n}', removeDetail: 'Remove detail {n}', goDetail: 'Back to detail {n}', photos: 'Photographs', photo: 'The photograph: {what}',
           frame: 'A closer look. Drag to move it, or tap a place in the picture', detail: 'The detail, enlarged', justSaved: 'Saved', already: 'This detail is already saved. Move the frame or change the zoom to save a different one.', full: 'You can save up to {n} details. You can remove a saved one.',
@@ -108,7 +108,7 @@ window.Closeup = (function () {
            enlarges it), the details saved, and the other photographs with "Surprise me" last (the author, 19 October 2026) */
         '<div class="cu-main' + (e[0] / e[1] < 0.9 ? ' cu-tall' : '') + '"><div class="cu-view" dir="ltr" tabindex="0" aria-label="' + esc(T('pick')) + '" style="aspect-ratio:' + e[0] + '/' + e[1] + ';width:min(100%,calc(var(--cu-h) * ' + (e[0] / e[1]).toFixed(4) + '))">' +
           '<img class="cu-img" src="' + esc(url(entry.img)) + '" alt="' + esc(T('photo', { what: alt(entry) })) + '" draggable="false">' +
-          '<div class="cu-frame" tabindex="0" role="slider" aria-label="' + esc(T('frame')) + '" aria-valuemin="' + zoom[0] + '" aria-valuemax="' + zoom[1] + '"></div></div>' +
+          '<div class="cu-frame" tabindex="0" role="slider" aria-label="' + esc(T('frame')) + '" aria-valuemin="' + zoom[0] + '" aria-valuemax="' + zoom[1] + '"></div>' + CUE() + '</div>' +
           '<div class="cu-row cu-ctl">' +
             '<div class="cu-zoomrow"><span class="cu-end">' + esc(T('far')) + '</span>' +
               '<button type="button" class="cu-step" data-z="-1" aria-label="' + esc(T('farther')) + '">−</button>' +
@@ -136,7 +136,7 @@ window.Closeup = (function () {
       el.innerHTML =
         '<div class="cv-media"><div class="cu-view" dir="ltr" tabindex="0" aria-label="' + esc(T('pick')) + '" style="aspect-ratio:' + e[0] + '/' + e[1] + '">' +
           '<img class="cu-img" src="' + esc(url(entry.img)) + '" alt="' + esc(T('photo', { what: alt(entry) })) + '" draggable="false">' +
-          '<div class="cu-frame" tabindex="0" role="slider" aria-label="' + esc(T('frame')) + '" aria-valuemin="' + zoom[0] + '" aria-valuemax="' + zoom[1] + '"></div></div>' +
+          '<div class="cu-frame" tabindex="0" role="slider" aria-label="' + esc(T('frame')) + '" aria-valuemin="' + zoom[0] + '" aria-valuemax="' + zoom[1] + '"></div>' + CUE() + '</div>' +
           (o.credit ? '<p class="cv-credit">' + o.credit(entry) + '</p>' : '') + '</div>' +
         '<div class="cv-tools"><div class="cu-row cu-ctl">' +
           '<div class="cu-zoomrow"><button type="button" class="cu-step" data-z="-1" aria-label="' + esc(T('farther')) + '">−</button>' +
@@ -155,6 +155,14 @@ window.Closeup = (function () {
       if (o.onBuild) o.onBuild(el);
     }
 
+    /* before the first choice only (the author's approval of 28 October 2026, after the UX review): a dashed frame in the middle
+       of the photograph and one line, "Tap what makes you curious"; it goes with the first tap, drag or pinch and does not come back */
+    function CUE() {
+      return '<div class="cu-cue" aria-hidden="true"><span class="cu-cue-box"></span><span class="cu-cue-tag" dir="auto">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 013 0V11m0-1.5a1.5 1.5 0 013 0V12m0-1a1.5 1.5 0 013 0v3.5a6 6 0 01-6 6h-1a6 6 0 01-5-2.7l-2.6-4a1.5 1.5 0 012.4-1.8L9 14"/></svg>' +
+        esc(T('cue')) + '</span></div>';
+    }
+    function chosenOnce() { return Object.keys(frames).some(function (k) { return !!frames[k]; }) || (worlds && worlds.length > 0); }   // (a photograph not looked into is kept as null)
     function put(next, animate) {
       var first = !f;
       f = clampFrame(e, next, zoom); frames[entry.id] = f;
@@ -164,6 +172,7 @@ window.Closeup = (function () {
     function paint() {
       var none = !f;
       el.classList.toggle('cu-free', none);   // the photograph whole and clear: no frame, nothing darkened; the zoom and the detail wait
+      el.classList.toggle('cu-cueing', none && !chosenOnce());   // the first choice not made yet: the dashed frame and its line
       [].slice.call(el.querySelectorAll('.cu-enlarge')).forEach(function (b) { b.disabled = none; });   // the zoom never waits (23 October 2026, Hagit on her phone): before a tap, it looks into the middle
       var hint = el.querySelector('.cu-pickhint'), was = hint.hidden; hint.hidden = !none;
       if (was !== hint.hidden && view.isConnected) setTimeout(fit, 0);   // the line came or went: the photograph as large as the room allows again

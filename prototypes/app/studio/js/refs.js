@@ -28,12 +28,12 @@ Studio.register('refs', {
        changes). Its button in the top bar, as below */
     var lesson = S.activity.content && S.activity.content.inspiration;
     if (lesson && window.Inspiration) {
-      var ob = eyeButton(function () { S.closePanels(); window.Inspiration.open({ lesson: lesson, lang: S.lang, base: '../', from: ob, close: S.T.refsClose }); });
+      var ob = eyeButton(function () { S.closePanels(); window.Inspiration.open({ lesson: lesson, lang: S.lang, base: '../', from: ob, close: S.T.refsClose, x: true }); });
       /* the page first (2.2, version 41): the bar keeps only what is essential, so the gallery is a line in "More" (js/shell.js) */
       if (S.pageFirst) {
         var mi = document.createElement('button');
         mi.type = 'button'; mi.className = 'menu-item menu-refs'; mi.id = 'refsItem'; mi.textContent = S.T.refs;
-        mi.addEventListener('click', function () { S.closePanels(); window.Inspiration.open({ lesson: lesson, lang: S.lang, base: '../', from: S.$('more'), close: S.T.refsClose }); });
+        mi.addEventListener('click', function () { S.closePanels(); window.Inspiration.open({ lesson: lesson, lang: S.lang, base: '../', from: S.$('more'), close: S.T.refsClose, x: true }); });
         S.$('menu').insertBefore(mi, S.$('menu').firstChild);
         return;
       }
@@ -51,7 +51,9 @@ Studio.register('refs', {
 
     var d = document.createElement('dialog');
     d.className = 'refs'; d.id = 'refsDialog'; d.setAttribute('aria-label', S.T.refsTitle);
-    d.innerHTML = '<h2 class="refs-h">' + esc(S.T.refsTitle) + '</h2>' +
+    /* back to the work, always in view (the author's approval of 28 October 2026, after the UX review): a ✕ at the top, and
+       "Back to my artwork" kept at the bottom of the box while the images scroll under it */
+    d.innerHTML = '<div class="refs-top"><h2 class="refs-h">' + esc(S.T.refsTitle) + '</h2><button type="button" class="refs-x" aria-label="' + esc(S.T.refsClose) + '" title="' + esc(S.T.refsClose) + '">✕</button></div>' +
       '<ul class="refs-grid">' + list.map(function (r, i) {
         return '<li><button type="button" class="refs-thumb" data-i="' + i + '" aria-label="' + esc(fill(S.T.refsOpen, { what: alt(r) })) + '"><img src="' + esc(r.src) + '" alt=""></button></li>';
       }).join('') + '</ul>' +
@@ -96,6 +98,7 @@ Studio.register('refs', {
     img.addEventListener('dragstart', function (e) { e.preventDefault(); });
     all.addEventListener('click', showAll);
     d.querySelector('.refs-close').addEventListener('click', function () { d.close(); });
+    d.querySelector('.refs-x').addEventListener('click', function () { d.close(); });
     d.addEventListener('click', function (e) {   // a tap outside the box
       if (e.target !== d) return;
       var r = d.getBoundingClientRect();

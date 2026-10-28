@@ -148,13 +148,14 @@ Studio.shell = (function () {
       var r = menu.getBoundingClientRect(), m = 6, dx = Math.max(0, m - r.left) - Math.max(0, r.right - (innerWidth - m));
       if (dx) menu.style.transform = 'translateX(' + dx + 'px)';
     }
-    /* the page first (2.2, version 41): "How to use?" in "More", the place of the Studio's guide and the lesson's short one (to
-       come; until then it says so); My artworks there too (below), the bar keeping only "Back", the detail, "Expand" and the
-       main action */
+    /* the page first (2.2, version 41): "How to use?" in "More"; My artworks there too (below), the bar keeping only "Back", the
+       detail, "Expand" and the main action. It opens a short help, only when asked (the author's approval of 28 October 2026, after
+       the UX review): this activity's own tools, each with its icon from the toolbar and one line (S.T['help_' + its id], from its
+       tool), two fingers for the page, and "Back to my artwork" */
     if (S.pageFirst) {
       var how = document.createElement('button');
       how.type = 'button'; how.className = 'menu-item menu-howto'; how.id = 'howTo'; how.textContent = S.T.howTo;
-      how.addEventListener('click', function () { toast(S.T.soon, 2200); });
+      how.addEventListener('click', help);
       menu.insertBefore(how, $('clear'));
     }
     more.addEventListener('click', function () { closePanels(); menuOpen(menu.hidden); });
@@ -406,6 +407,27 @@ Studio.shell = (function () {
   }
 
   var allowUnload = false;
+  function help() {
+    var d = $('helpDialog');
+    if (!d) {
+      d = document.createElement('dialog'); d.className = 'refs help'; d.id = 'helpDialog'; d.setAttribute('aria-label', S.T.howTo);
+      document.body.appendChild(d);
+      d.addEventListener('click', function (e) {
+        if (e.target.closest('.refs-x,.help-back')) return d.close();
+        if (e.target !== d) return;
+        var r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
+      });
+    }
+    var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var rows = [].slice.call($('tools').querySelectorAll('.tool')).filter(function (b) { return S.T['help_' + b.id]; }).map(function (b) {
+      var ic = b.querySelector('svg, .size-dot, .color-wheel, .tone-icon, .dot');
+      return '<li><span class="help-ic" aria-hidden="true">' + (ic ? ic.outerHTML.replace(/ id="[^"]*"/g, '') : '') + '</span><span>' + esc(S.T['help_' + b.id]) + '</span></li>';
+    });
+    rows.push('<li><span class="help-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V4.5a1.5 1.5 0 013 0V12m0-4.5a1.5 1.5 0 013 0V13"/><path d="M14 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-4.9-2.6L4 15a1.5 1.5 0 012.5-1.6L8 15.5"/></svg></span><span>' + esc(S.T.help_fingers) + '</span></li>');
+    d.innerHTML = '<div class="refs-top"><h2 class="refs-h">' + esc(S.T.howTo) + '</h2><button type="button" class="refs-x" aria-label="' + esc(S.T.helpBack) + '" title="' + esc(S.T.helpBack) + '">✕</button></div>' +
+      '<ul class="help-list">' + rows.join('') + '</ul><div class="refs-row"><button type="button" class="btn primary help-back">' + esc(S.T.helpBack) + '</button></div>';
+    closePanels(); d.showModal(); d.querySelector('.help-back').focus();
+  }
   function leave() { allowUnload = true; location.href = S.back(); }
 
   /* the floating toolbar can be moved (Hagit's request after testing version 44, 25 October 2026): a grip at the head of the pill,
